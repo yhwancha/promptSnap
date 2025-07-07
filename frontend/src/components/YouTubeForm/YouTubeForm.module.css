@@ -1,62 +1,72 @@
+/* Full-width dark theme container */
 .container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 1rem;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 2rem;
+  font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0a0a0a;
+  color: #ffffff;
 }
 
 .form {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  margin-bottom: 1.5rem;
-  border: 1px solid #f0f0f0;
+  background: #1a1a1a;
+  border: 1px solid #2d2d2d;
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  margin-bottom: 2rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  backdrop-filter: blur(10px);
 }
 
 .inputGroup {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
   font-weight: 600;
-  color: #333;
-  font-size: 0.95rem;
+  color: #ffffff;
+  font-size: 1.1rem;
 }
 
 .input {
   width: 100%;
-  padding: 0.875rem 1rem;
-  border: 2px solid #e1e5e9;
-  border-radius: 8px;
-  font-size: 1rem;
+  padding: 1.2rem 1.5rem;
+  border: 2px solid #2d2d2d;
+  border-radius: 12px;
+  font-size: 1.1rem;
   transition: all 0.3s ease;
-  background: #fafbfc;
+  background: #0a0a0a;
+  color: #ffffff;
+  font-family: inherit;
 }
 
 .input:focus {
   outline: none;
-  border-color: #667eea;
-  background: white;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #6B73FF;
+  background: #0a0a0a;
+  box-shadow: 0 0 0 3px rgba(107, 115, 255, 0.1);
 }
 
 .input::placeholder {
-  color: #999;
+  color: #666;
 }
 
-/* 추출 옵션 */
+/* Enhanced options group */
 .optionsGroup {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background: #2d2d2d;
+  border-radius: 16px;
+  border: 1px solid #404040;
 }
 
 .option {
@@ -65,257 +75,268 @@
 }
 
 .optionLabel {
-  font-size: 0.85rem;
+  font-size: 1rem;
   font-weight: 600;
-  color: #555;
-  margin-bottom: 0.4rem;
+  color: #ffffff;
+  margin-bottom: 0.8rem;
 }
 
 .select {
-  padding: 0.6rem 0.8rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  background: white;
+  padding: 1rem 1.2rem;
+  border: 2px solid #404040;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: #1a1a1a;
+  color: #ffffff;
   cursor: pointer;
-  transition: border-color 0.3s ease;
+  transition: all 0.3s ease;
+  font-family: inherit;
 }
 
 .select:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+  border-color: #6B73FF;
+  box-shadow: 0 0 0 3px rgba(107, 115, 255, 0.1);
 }
 
-/* 버튼 그룹 */
+/* Enhanced button group */
 .buttonGroup {
   display: flex;
-  gap: 0.75rem;
+  gap: 1rem;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .submitButton {
   flex: 1;
-  min-width: 140px;
-  padding: 0.875rem 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-width: 180px;
+  padding: 1.2rem 2rem;
+  background: linear-gradient(135deg, #6B73FF, #9B59B6);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 16px rgba(107, 115, 255, 0.3);
+  font-family: inherit;
 }
 
 .submitButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 24px rgba(107, 115, 255, 0.4);
+  background: linear-gradient(135deg, #5A67D8, #8B5CF6);
 }
 
 .extractButton {
   flex: 1;
-  min-width: 140px;
-  padding: 0.875rem 1.5rem;
+  min-width: 180px;
+  padding: 1.2rem 2rem;
   background: linear-gradient(135deg, #FF6B6B, #EE5A6F);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 4px 16px rgba(255, 107, 107, 0.3);
+  font-family: inherit;
 }
 
 .extractButton:hover:not(.disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 24px rgba(255, 107, 107, 0.4);
+  background: linear-gradient(135deg, #FF5A5A, #E84057);
 }
 
 .extractButton.disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
 
 .clearButton {
-  padding: 0.875rem 1.5rem;
+  padding: 1.2rem 2rem;
   background: #6c757d;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  min-width: 120px;
+  min-width: 150px;
+  font-family: inherit;
 }
 
 .clearButton:hover {
   background: #5a6268;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
 }
 
-/* URL 상태 표시 */
+/* Enhanced URL status */
 .urlStatus {
-  margin: 1rem 0;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  margin: 1.5rem auto;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-size: 1rem;
   font-weight: 600;
   text-align: center;
   transition: all 0.3s ease;
+  max-width: 400px;
 }
 
 .urlStatus.valid {
-  background: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+  background: rgba(16, 185, 129, 0.1);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
 .urlStatus.invalid {
-  background: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+  background: rgba(239, 68, 68, 0.1);
+  color: #EF4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
-/* 섹션 */
+/* Enhanced sections */
 .videoSection {
-  margin: 2rem 0;
-  padding: 1.5rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid #f0f0f0;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #1a1a1a;
+  border: 1px solid #2d2d2d;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  max-width: 1200px;
 }
 
 .sectionTitle {
-  margin: 0 0 1rem 0;
-  color: #333;
-  font-size: 1.2rem;
+  margin: 0 0 1.5rem 0;
+  color: #ffffff;
+  font-size: 1.5rem;
   font-weight: 700;
 }
 
-/* 도움말 섹션 */
 .helpSection {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 12px;
-  border: 1px solid #dee2e6;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #1a1a1a;
+  border: 1px solid #2d2d2d;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  max-width: 1200px;
 }
 
 .helpSection h4 {
-  margin: 0 0 1rem 0;
-  color: #495057;
-  font-size: 1.1rem;
+  margin: 0 0 1.5rem 0;
+  color: #ffffff;
+  font-size: 1.3rem;
   font-weight: 700;
 }
 
 .helpSection ul {
+  list-style: none;
+  padding: 0;
   margin: 0;
-  padding-left: 1.2rem;
-  color: #6c757d;
 }
 
 .helpSection li {
-  margin-bottom: 0.5rem;
-  line-height: 1.5;
-  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: #2d2d2d;
+  border-radius: 12px;
+  border: 1px solid #404040;
+  color: #e0e0e0;
+  line-height: 1.6;
 }
 
 .helpSection strong {
-  color: #495057;
+  color: #6B73FF;
   font-weight: 600;
 }
 
-/* 반응형 디자인 */
+/* Responsive design */
 @media (max-width: 768px) {
   .container {
-    padding: 0.5rem;
+    padding: 1rem;
   }
 
   .form {
-    padding: 1.5rem;
-    margin-bottom: 1rem;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
   }
 
   .optionsGroup {
     grid-template-columns: 1fr;
-    gap: 0.75rem;
-    padding: 0.75rem;
+    gap: 1.5rem;
+    padding: 1.5rem;
   }
 
   .buttonGroup {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
   }
 
   .submitButton,
-  .extractButton,
-  .clearButton {
-    width: 100%;
-    min-width: auto;
+  .extractButton {
+    min-width: 100%;
   }
 
-  .videoSection {
-    margin: 1.5rem 0;
-    padding: 1rem;
-  }
-
+  .videoSection,
   .helpSection {
-    margin-top: 1.5rem;
-    padding: 1rem;
+    margin: 2rem auto;
+    padding: 1.5rem;
   }
 
   .helpSection h4 {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 
   .helpSection li {
-    font-size: 0.85rem;
+    padding: 0.8rem;
+    font-size: 0.9rem;
   }
 }
 
 @media (max-width: 480px) {
   .form {
-    padding: 1rem;
+    padding: 1.5rem;
   }
 
   .label {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 
   .input {
-    padding: 0.75rem;
-    font-size: 0.95rem;
+    padding: 1rem;
+    font-size: 1rem;
   }
 
   .optionLabel {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 
   .select {
-    padding: 0.5rem;
-    font-size: 0.85rem;
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
   }
 
   .submitButton,
   .extractButton,
   .clearButton {
-    padding: 0.75rem 1rem;
-    font-size: 0.9rem;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
   }
 
   .sectionTitle {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
   }
 
   .urlStatus {
-    padding: 0.6rem 0.8rem;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    padding: 0.8rem 1.2rem;
   }
 } 

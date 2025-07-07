@@ -2,24 +2,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: #0a0a0a;
+  color: #ffffff;
 }
 
 .error {
-  background-color: #fee;
-  border: 1px solid #f88;
-  color: #c33;
-  padding: 1rem;
-  border-radius: 4px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #EF4444;
+  padding: 1.5rem;
+  border-radius: 12px;
   text-align: center;
+  font-weight: 500;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .videoContainer {
   position: relative;
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
   aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  border: 1px solid #2d2d2d;
 }
 
 .videoContainer iframe {
@@ -28,16 +37,20 @@
   left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 8px;
+  border: none;
 }
 
 /* YouTube Shorts styles */
 .shortsContainer {
   position: relative;
   width: 100%;
-  max-width: 400px;
+  max-width: 450px;
   aspect-ratio: 9 / 16;
   margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  border: 1px solid #2d2d2d;
 }
 
 .shortsContainer iframe {
@@ -46,23 +59,67 @@
   left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 12px;
+  border: none;
 }
 
 .shortsInfo {
   text-align: center;
-  margin-top: 1rem;
-  padding: 0.5rem;
-  background: linear-gradient(135deg, #ff4757, #ff6b7d);
+  margin-top: 1.5rem;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #6B73FF, #9B59B6);
   color: white;
-  border-radius: 20px;
+  border-radius: 16px;
   font-weight: 600;
-  max-width: 400px;
+  max-width: 450px;
   margin-left: auto;
   margin-right: auto;
+  box-shadow: 0 4px 16px rgba(107, 115, 255, 0.3);
 }
 
 .shortsInfo p {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .youtubePlayer {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .videoContainer {
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+  .shortsContainer {
+    max-width: 350px;
+  }
+
+  .shortsInfo {
+    padding: 0.8rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .error {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .videoContainer {
+    border-radius: 8px;
+  }
+
+  .shortsContainer {
+    max-width: 300px;
+    border-radius: 16px;
+  }
+
+  .shortsInfo {
+    padding: 0.7rem 1rem;
+    font-size: 0.85rem;
+  }
 } 
