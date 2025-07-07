@@ -92,7 +92,7 @@ export default function YouTubeForm() {
             <select
               id="quality"
               value={quality}
-              onChange={(e) => setQuality(e.target.value as any)}
+              onChange={(e) => setQuality(e.target.value as typeof quality)}
               className={styles.select}
             >
               <option value="144p">144p (Fastest)</option>
@@ -111,7 +111,7 @@ export default function YouTubeForm() {
             <select
               id="method"
               value={method}
-              onChange={(e) => setMethod(e.target.value as any)}
+              onChange={(e) => setMethod(e.target.value as typeof method)}
               className={styles.select}
             >
               <option value="auto">Auto Select</option>
@@ -170,8 +170,8 @@ export default function YouTubeForm() {
       <div className={styles.helpSection}>
         <h4>💡 How to Use</h4>
         <ul>
-          <li><strong>Video Preview:</strong> Enter a YouTube URL and click "Video Preview" button</li>
-          <li><strong>Frame Extraction:</strong> Click "Extract Frames" button to generate 4 representative images</li>
+          <li><strong>Video Preview:</strong> Enter a YouTube URL and click &quot;Video Preview&quot; button</li>
+          <li><strong>Frame Extraction:</strong> Click &quot;Extract Frames&quot; button to generate 4 representative images</li>
           <li><strong>Quality Selection:</strong> Higher quality provides clearer images but takes longer to process</li>
           <li><strong>Extraction Method:</strong> Auto select chooses the best method based on video length</li>
         </ul>

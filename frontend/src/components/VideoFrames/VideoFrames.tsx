@@ -61,7 +61,7 @@ export default function VideoFrames({ extractionResult, isLoading, error }: Vide
     }
   };
 
-  const generateVideoPrompt = (frame: FrameInfo, videoTitle?: string) => {
+  const generateVideoPrompt = () => {
     // Simplified creative prompt templates
     const promptTemplates = [
       "Create a hyper-realistic, satisfying short video where a person carefully {action} a {adjective} {object} on a {surface} in a {setting}. The {object} looks {texture} with {details}. As the {tool} {motion_verb} through it slowly, the material {reaction} and gives a {result}. Add realistic hand movements with {hands} holding the {object}. Focus on textures, reflections, and {sensory} satisfaction. Lighting should be {lighting}, enhancing the {visual_effect}. Video duration: {duration} seconds. Camera: {camera}, {motion_style} on the {focus_moment}",
@@ -205,7 +205,7 @@ export default function VideoFrames({ extractionResult, isLoading, error }: Vide
 
       {/* Frames grid */}
       <div className={styles.framesGrid}>
-        {frames.map((frame, index) => {
+        {frames.map((frame) => {
           const imageUrl = getFrameImageUrl(frame.file_name);
           const hasError = imageErrors.has(frame.file_name);
           
@@ -367,7 +367,7 @@ export default function VideoFrames({ extractionResult, isLoading, error }: Vide
               <h4>Video Generation Prompt:</h4>
               <textarea
                 className={styles.promptTextarea}
-                value={generateVideoPrompt(showPromptModal, video_title)}
+                value={generateVideoPrompt()}
                 readOnly
                 rows={6}
               />
@@ -375,7 +375,7 @@ export default function VideoFrames({ extractionResult, isLoading, error }: Vide
               <div className={styles.promptActions}>
                 <button
                   className={styles.copyBtn}
-                  onClick={() => copyToClipboard(generateVideoPrompt(showPromptModal, video_title))}
+                  onClick={() => copyToClipboard(generateVideoPrompt())}
                 >
                   📋 Copy Prompt
                 </button>
