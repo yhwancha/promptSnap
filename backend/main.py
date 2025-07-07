@@ -26,7 +26,7 @@ app.add_middleware(
         "http://localhost:3000",  # Next.js development server
         "http://127.0.0.1:3000",
         "http://localhost:3001",  # Alternative port
-        "https://promptsnap.vercel.app",  # Production domain (example)
+        "https://prompt-snap.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
