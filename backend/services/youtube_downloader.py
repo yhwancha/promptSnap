@@ -108,6 +108,19 @@ class YouTubeDownloader:
         print(f"⚙️ [OPTS] Configuring yt-dlp options:")
         print(f"  - Server environment: {is_server}")
         
+        # More realistic browser headers to avoid bot detection
+        user_agents = [
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0',
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0',
+        ]
+        
+        # Use a random user agent to appear more like a real browser
+        import random
+        user_agent = random.choice(user_agents)
+        
         # Base options optimized for server environments
         opts = {
             'format': 'best[ext=mp4]/best',
@@ -123,10 +136,34 @@ class YouTubeDownloader:
             'embedthumbnail': False,
             'addmetadata': False,
             'ignoreerrors': False,
-            'user_agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+            'user_agent': user_agent,
             'referer': 'https://www.youtube.com/',
             'merge_output_format': 'mp4',
             'postprocessors': [],
+            
+            # Additional headers to mimic real browser behavior
+            'http_headers': {
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Accept-Encoding': 'gzip, deflate, br',
+                'DNT': '1',
+                'Connection': 'keep-alive',
+                'Upgrade-Insecure-Requests': '1',
+                'Sec-Fetch-Dest': 'document',
+                'Sec-Fetch-Mode': 'navigate',
+                'Sec-Fetch-Site': 'none',
+                'Sec-Fetch-User': '?1',
+                'Cache-Control': 'max-age=0',
+            },
+            
+            # YouTube-specific options to avoid bot detection
+            'youtube_include_dash_manifest': False,
+            'youtube_skip_dash_manifest': True,
+            'youtube_skip_hls_manifest': True,
+            
+            # Geo-bypass options
+            'geo_bypass': True,
+            'geo_bypass_country': 'US',
         }
         
         if is_server:
@@ -138,17 +175,24 @@ class YouTubeDownloader:
                 'http_chunk_size': 1024 * 1024,  # 1MB chunks
                 'buffersize': 1024 * 1024,  # 1MB buffer
                 'ratelimit': 1 * 1024 * 1024,  # 1MB/s rate limit
+                'sleep_interval': 1,  # 1 second between requests
+                'max_sleep_interval': 3,  # Max 3 seconds
+                'sleep_interval_requests': 1,  # Sleep between requests
+                'sleep_interval_subtitles': 1,  # Sleep between subtitle requests
             })
             
             print(f"  - Applied server-specific limits:")
             print(f"    - Max filesize: {opts['max_filesize'] / 1024 / 1024:.0f}MB")
             print(f"    - Rate limit: {opts['ratelimit'] / 1024 / 1024:.0f}MB/s")
+            print(f"    - Sleep interval: {opts['sleep_interval']}s")
         
         print(f"  - Socket timeout: {opts['socket_timeout']}s")
         print(f"  - Retries: {opts['retries']}")
         print(f"  - Fragment retries: {opts['fragment_retries']}")
         print(f"  - User agent: {opts['user_agent'][:50]}...")
         print(f"  - Format: {opts['format']}")
+        print(f"  - Geo bypass: {opts['geo_bypass']}")
+        print(f"  - Additional headers: {len(opts['http_headers'])} headers")
         
         return opts
     
@@ -173,70 +217,172 @@ class YouTubeDownloader:
             print(f"🔧 [SIMPLE] Video ID: {video_id}")
             print(f"🔧 [SIMPLE] Filename: {filename}")
             
-            # Most basic yt-dlp options
-            ydl_opts = {
-                'format': 'best[ext=mp4]/best',
-                'outtmpl': os.path.join(self.download_dir, f'{filename}.%(ext)s'),
-                'quiet': False,  # Enable output for debugging
-                'no_warnings': False,
-                'verbose': True,
-                'writeinfojson': False,
-                'writethumbnail': False,
-                'user_agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
-                'socket_timeout': 10,
-                'retries': 0,
-                'fragment_retries': 0,
-            }
+            # Try multiple approaches to avoid bot detection
+            approaches = [
+                {
+                    'name': 'Standard Browser',
+                    'opts': {
+                        'format': 'best[ext=mp4]/best',
+                        'outtmpl': os.path.join(self.download_dir, f'{filename}.%(ext)s'),
+                        'quiet': False,
+                        'no_warnings': False,
+                        'verbose': True,
+                        'writeinfojson': False,
+                        'writethumbnail': False,
+                        'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                        'socket_timeout': 15,
+                        'retries': 0,
+                        'fragment_retries': 0,
+                        'sleep_interval': 2,
+                        'max_sleep_interval': 5,
+                        'http_headers': {
+                            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                            'Accept-Language': 'en-US,en;q=0.9',
+                            'Accept-Encoding': 'gzip, deflate',
+                            'DNT': '1',
+                            'Connection': 'keep-alive',
+                            'Upgrade-Insecure-Requests': '1',
+                        },
+                        'geo_bypass': True,
+                        'geo_bypass_country': 'US',
+                    }
+                },
+                {
+                    'name': 'Mobile Android',
+                    'opts': {
+                        'format': 'best[ext=mp4]/worst[ext=mp4]/best',
+                        'outtmpl': os.path.join(self.download_dir, f'{filename}_mobile.%(ext)s'),
+                        'quiet': False,
+                        'verbose': True,
+                        'writeinfojson': False,
+                        'writethumbnail': False,
+                        'user_agent': 'Mozilla/5.0 (Linux; Android 10; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
+                        'socket_timeout': 20,
+                        'retries': 0,
+                        'fragment_retries': 0,
+                        'sleep_interval': 3,
+                        'extractor_args': {
+                            'youtube': {
+                                'player_client': ['android'],
+                                'player_skip': ['webpage'],
+                            }
+                        },
+                        'http_headers': {
+                            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                            'Accept-Language': 'en-US,en;q=0.9',
+                            'Accept-Encoding': 'gzip, deflate',
+                        },
+                        'geo_bypass': True,
+                    }
+                },
+                {
+                    'name': 'TV Client',
+                    'opts': {
+                        'format': 'worst[ext=mp4]/best[ext=mp4]/worst',
+                        'outtmpl': os.path.join(self.download_dir, f'{filename}_tv.%(ext)s'),
+                        'quiet': False,
+                        'verbose': True,
+                        'writeinfojson': False,
+                        'writethumbnail': False,
+                        'user_agent': 'Mozilla/5.0 (SMART-TV; Linux; Tizen 2.4.0) AppleWebKit/538.1 (KHTML, like Gecko) Version/2.4.0 TV Safari/538.1',
+                        'socket_timeout': 25,
+                        'retries': 0,
+                        'fragment_retries': 0,
+                        'sleep_interval': 5,
+                        'extractor_args': {
+                            'youtube': {
+                                'player_client': ['tv_embedded'],
+                                'player_skip': ['webpage'],
+                            }
+                        },
+                        'geo_bypass': True,
+                    }
+                }
+            ]
             
-            print(f"🔧 [SIMPLE] Options: {ydl_opts}")
-            
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                print("🔧 [SIMPLE] Extracting info...")
-                info = ydl.extract_info(url, download=False)
+            for i, approach in enumerate(approaches):
+                print(f"🔧 [SIMPLE] Trying approach {i+1}: {approach['name']}")
                 
-                print(f"🔧 [SIMPLE] Info extracted successfully:")
-                print(f"  - Title: {info.get('title', 'N/A')}")
-                print(f"  - Duration: {info.get('duration', 'N/A')}")
-                print(f"  - Availability: {info.get('availability', 'N/A')}")
-                
-                print("🔧 [SIMPLE] Starting download...")
-                ydl.download([url])
-                
-                print("🔧 [SIMPLE] Download completed, looking for files...")
-                
-                # Find downloaded file
-                if os.path.exists(self.download_dir):
-                    all_files = os.listdir(self.download_dir)
-                    print(f"🔧 [SIMPLE] All files: {all_files}")
+                try:
+                    # Add some delay between attempts
+                    if i > 0:
+                        delay = 3 + i * 2
+                        print(f"🔧 [SIMPLE] Waiting {delay}s before next attempt...")
+                        time.sleep(delay)
                     
-                    for file in all_files:
-                        if file.startswith(filename):
-                            file_path = os.path.join(self.download_dir, file)
-                            file_size = os.path.getsize(file_path)
+                    with yt_dlp.YoutubeDL(approach['opts']) as ydl:
+                        print(f"🔧 [SIMPLE] Extracting info with {approach['name']}...")
+                        info = ydl.extract_info(url, download=False)
+                        
+                        print(f"🔧 [SIMPLE] Info extracted successfully:")
+                        print(f"  - Title: {info.get('title', 'N/A')}")
+                        print(f"  - Duration: {info.get('duration', 'N/A')}")
+                        print(f"  - Availability: {info.get('availability', 'N/A')}")
+                        
+                        # Check if video is actually available
+                        if info.get('availability') in ['private', 'premium_only', 'subscriber_only']:
+                            print(f"🔧 [SIMPLE] Video not publicly available: {info.get('availability')}")
+                            continue
+                        
+                        print(f"🔧 [SIMPLE] Starting download with {approach['name']}...")
+                        ydl.download([url])
+                        
+                        print(f"🔧 [SIMPLE] Download completed, looking for files...")
+                        
+                        # Find downloaded file
+                        if os.path.exists(self.download_dir):
+                            all_files = os.listdir(self.download_dir)
+                            print(f"🔧 [SIMPLE] All files: {all_files}")
                             
-                            print(f"🔧 [SIMPLE] Found file: {file}")
-                            print(f"🔧 [SIMPLE] File size: {file_size} bytes")
+                            # Look for files with our filename patterns
+                            for file in all_files:
+                                if any(pattern in file for pattern in [filename, f"{filename}_mobile", f"{filename}_tv"]):
+                                    file_path = os.path.join(self.download_dir, file)
+                                    file_size = os.path.getsize(file_path)
+                                    
+                                    print(f"🔧 [SIMPLE] Found file: {file}")
+                                    print(f"🔧 [SIMPLE] File size: {file_size} bytes")
+                                    
+                                    if file_size > 0:
+                                        result = {
+                                            'video_id': video_id,
+                                            'title': info.get('title'),
+                                            'duration': info.get('duration'),
+                                            'file_path': file_path,
+                                            'file_size': file_size,
+                                            'downloaded_files': [file_path],
+                                            'download_time': datetime.now().isoformat(),
+                                            'method': f'simple_{approach["name"].lower().replace(" ", "_")}',
+                                            'approach': approach['name']
+                                        }
+                                        
+                                        print(f"✅ [SIMPLE] Simple download successful with {approach['name']}!")
+                                        return result
+                                    else:
+                                        print(f"❌ [SIMPLE] File is empty")
+                        else:
+                            print(f"❌ [SIMPLE] Download directory doesn't exist")
                             
-                            if file_size > 0:
-                                result = {
-                                    'video_id': video_id,
-                                    'title': info.get('title'),
-                                    'duration': info.get('duration'),
-                                    'file_path': file_path,
-                                    'file_size': file_size,
-                                    'downloaded_files': [file_path],
-                                    'download_time': datetime.now().isoformat(),
-                                    'method': 'simple'
-                                }
-                                
-                                print(f"✅ [SIMPLE] Simple download successful!")
-                                return result
-                            else:
-                                print(f"❌ [SIMPLE] File is empty")
-                else:
-                    print(f"❌ [SIMPLE] Download directory doesn't exist")
+                except Exception as e:
+                    error_msg = str(e)
+                    print(f"❌ [SIMPLE] {approach['name']} failed:")
+                    print(f"  - Error: {error_msg}")
+                    
+                    # Check if it's a bot detection error
+                    if any(phrase in error_msg.lower() for phrase in [
+                        'sign in to confirm', 'not a bot', 'cookies', 'authentication'
+                    ]):
+                        print(f"🤖 [SIMPLE] Bot detection error with {approach['name']}")
+                        continue
+                    
+                    # Check if it's a video unavailable error
+                    if 'video unavailable' in error_msg.lower():
+                        print(f"📵 [SIMPLE] Video unavailable error - stopping attempts")
+                        break
+                        
+                    print(f"🔄 [SIMPLE] Will try next approach...")
             
-            print(f"❌ [SIMPLE] No valid file found")
+            print(f"❌ [SIMPLE] All approaches failed")
             return None
             
         except Exception as e:
